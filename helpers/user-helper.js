@@ -88,7 +88,8 @@ getCartProducts:(userId)=>{
        
         let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([{
          
-            $match:{user:objectId(userId)
+            $match:{
+                user:objectId(userId)
 
                
             }
@@ -112,15 +113,15 @@ getCartProducts:(userId)=>{
             }
          
         ]).toArray()
-      console.log(cartItems[0].products);
-        resolve(cartItems[0].cartItems)
+     resolve(cartItems);
     })
 },
 getCartCount:(userId)=>{
     return new Promise(async(resolve,reject)=>{
-        let count=0
         let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userId)})
-        if(cart){
+        
+        let count=0
+       if(cart){
             count=cart.products.length
         }
         resolve(count)
